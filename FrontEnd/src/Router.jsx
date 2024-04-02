@@ -1,9 +1,10 @@
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import UserRoute from './routes/UserRoute';
 import Home from './pages/Home/Home';
 import Header from './layout/Nav/Nav';
 import Footer from './layout/Footer/Footer';
 import SignIn from './pages/SignIn/SignIn';
-import User from './pages/User/User';
+import Error from './pages/Error/Error';
 
 const Router = () => {
     const router = createBrowserRouter([
@@ -13,6 +14,13 @@ const Router = () => {
                 <div id="mainContainer">
                     <Header />
                     <Outlet />
+                    <Footer />
+                </div>
+            ),
+            errorElement: (
+                <div id="mainContainer">
+                    <Header />
+                    <Error />
                     <Footer />
                 </div>
             ),
@@ -27,7 +35,7 @@ const Router = () => {
                 },
                 {
                     path: '/user/:id',
-                    element: <User />,
+                    element: <UserRoute />,
                 },
                 // ... autres routes
             ],
