@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { setUsername, setNewUsername } from '../../actions/user.action.js';
-import axios from 'axios';
+import { setNewUsername } from '../../actions/user.actions.js';
+import { updateUsername } from '../../thunks/user.thunks.js';
+
 import './User.scss';
 
 const User = () => {
@@ -18,33 +19,7 @@ const User = () => {
     const handleEditButtonClick = async () => {
         dispatch(setNewUsername(userName));
         if (isEditing) {
-            try {
-                const profileOptions = {
-                    method: 'PUT',
-                    url: 'http://localhost:3001/api/v1/user/profile',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                    data: {
-                        userName: newUsername,
-                    },
-                };
-
-                const response = await axios(profileOptions);
-
-                if (response.status === 200) {
-                    dispatch(setUsername(newUsername));
-                    localStorage.setItem(
-                        'userProfile',
-                        JSON.stringify(response.data.body)
-                    );
-                } else {
-                    console.error('Failed to update username');
-                }
-            } catch (error) {
-                console.error('Failed to update username', error);
-            }
+            dispatch(updateUsername(newUsername, token));
         }
         setIsEditing(!isEditing);
     };

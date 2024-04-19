@@ -4,7 +4,7 @@ import {
     setEmail,
     setPassword,
     setRememberMe,
-} from '../../actions/login.action';
+} from '../../actions/login.actions';
 import useLogin from '../../hooks/useLogin';
 import './SignIn.scss';
 
