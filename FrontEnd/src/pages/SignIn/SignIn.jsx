@@ -1,20 +1,37 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import {
+    loginUser,
     setEmail,
     setPassword,
     setRememberMe,
-} from '../../actions/login.actions';
-import useLogin from '../../hooks/useLogin';
+} from '../../slices/login.slice';
+import { getUser } from '../../slices/user.slice';
+// import useLogin from '../../hooks/useLogin';
 import './SignIn.scss';
+import { useNavigate } from 'react-router-dom';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const SignIn = () => {
     const dispatch = useDispatch();
-    const login = useLogin(useNavigate());
+    // const login = useLogin();
+    const navigate = useNavigate();
     const loginError = useSelector((state) => state.loginReducer.error);
     const { email, password, rememberMe } = useSelector(
         (state) => state.loginReducer
     );
+
+    const login = async () => {
+        dispatch(loginUser({ email: email, password: password }))
+            .then(unwrapResult)
+            .then((result) => {
+                return dispatch(getUser(result)).then(unwrapResult);
+            })
+            .then((userDetails) => {
+                if (userDetails.id) {
+                    navigate(`/user/${userDetails.id}`);
+                }
+            });
+    };
 
     const handleUsernameChange = (e) => dispatch(setEmail(e.target.value));
     const handlePasswordChange = (e) => dispatch(setPassword(e.target.value));

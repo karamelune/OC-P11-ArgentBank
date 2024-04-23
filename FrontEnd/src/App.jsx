@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
 import Router from './Router';
-import { setToken } from './actions/login.actions';
-import { updateUserProfile } from './actions/user.actions';
+import { setToken } from './slices/login.slice';
+import { updateUserProfile } from './slices/user.slice';
 import Cookies from 'js-cookie';
 
 const App = () => {
@@ -11,7 +11,7 @@ const App = () => {
 
     useEffect(() => {
         const storedToken = Cookies.get('token');
-        const userProfile = Cookies.get('userProfile');
+        const userProfile = localStorage.getItem('userProfile');
 
         if (storedToken) {
             dispatch(setToken(storedToken));
@@ -20,7 +20,7 @@ const App = () => {
             }
         } else {
             Cookies.remove('token');
-            Cookies.remove('userProfile');
+            localStorage.removeItem('userProfile');
         }
     }, [dispatch]);
 

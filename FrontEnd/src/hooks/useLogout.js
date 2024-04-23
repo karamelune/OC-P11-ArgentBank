@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { removeToken } from '../actions/login.actions';
+import { removeToken } from '../slices/login.slice';
 import Cookies from 'js-cookie';
 
 const useLogout = () => {
@@ -8,7 +8,6 @@ const useLogout = () => {
     const logout = () => {
         dispatch(removeToken());
         Cookies.remove('token');
-        Cookies.remove('userProfile');
     };
 
     return logout;
