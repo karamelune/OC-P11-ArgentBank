@@ -1,27 +1,22 @@
 import { useSelector, useDispatch } from 'react-redux';
-import {
-    loginUser,
-    setEmail,
-    setPassword,
-    setRememberMe,
-} from '../../slices/login.slice';
+import { loginUser, setRememberMe } from '../../slices/login.slice';
 import { getUser } from '../../slices/user.slice';
 // import useLogin from '../../hooks/useLogin';
 import './SignIn.scss';
 import { useNavigate } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { useState } from 'react';
 
 const SignIn = () => {
     const dispatch = useDispatch();
-    // const login = useLogin();
     const navigate = useNavigate();
+    const [userName, setUserName] = useState('');
+    const [password, setPassword] = useState('');
     const loginError = useSelector((state) => state.loginReducer.error);
-    const { email, password, rememberMe } = useSelector(
-        (state) => state.loginReducer
-    );
+    const { rememberMe } = useSelector((state) => state.loginReducer);
 
-    const login = async () => {
-        dispatch(loginUser({ email: email, password: password }))
+    const login = () => {
+        dispatch(loginUser({ userName: userName, password: password }))
             .then(unwrapResult)
             .then((result) => {
                 return dispatch(getUser(result)).then(unwrapResult);
@@ -33,8 +28,8 @@ const SignIn = () => {
             });
     };
 
-    const handleUsernameChange = (e) => dispatch(setEmail(e.target.value));
-    const handlePasswordChange = (e) => dispatch(setPassword(e.target.value));
+    const handleUsernameChange = (e) => setUserName(e.target.value);
+    const handlePasswordChange = (e) => setPassword(e.target.value);
     const handleRememberMeChange = (e) =>
         dispatch(setRememberMe(e.target.checked));
 
@@ -54,7 +49,6 @@ const SignIn = () => {
                         <input
                             type="text"
                             id="username"
-                            value={email}
                             onChange={handleUsernameChange}
                         />
                     </div>
@@ -63,7 +57,6 @@ const SignIn = () => {
                         <input
                             type="password"
                             id="password"
-                            value={password}
                             onChange={handlePasswordChange}
                         />
                     </div>

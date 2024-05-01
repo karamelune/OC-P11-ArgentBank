@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import useLogout from '../../hooks/useLogout';
+import Cookies from 'js-cookie';
 
 import logo from '../../assets/img/argentBankLogo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,10 +8,14 @@ import { faUserCircle, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import './Nav.scss';
 
 const Nav = () => {
-    const logout = useLogout();
-    const token = useSelector((state) => state.loginReducer.token);
+    const token = Cookies.get('token');
     const userId = useSelector((state) => state.userReducer.id);
     const userName = useSelector((state) => state.userReducer.userName);
+
+    const logout = () => {
+        Cookies.remove('token');
+    };
+
     return (
         <nav className="main-nav">
             <a className="main-nav-logo" href="/">

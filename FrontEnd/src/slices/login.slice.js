@@ -5,14 +5,14 @@ import Cookies from 'js-cookie';
 // Async thunk pour gérer la logique asynchrone de login
 export const loginUser = createAsyncThunk(
     'login/loginUser',
-    async ({ email, password }) => {
+    async ({ userName, password }) => {
         const options = {
             method: 'POST',
             url: 'http://localhost:3001/api/v1/user/login',
             headers: {
                 'Content-Type': 'application/json',
             },
-            data: { email: email, password: password },
+            data: { email: userName, password: password },
         };
 
         const response = await axios.request(options);
@@ -24,27 +24,12 @@ export const loginUser = createAsyncThunk(
 const loginSlice = createSlice({
     name: 'login',
     initialState: {
-        email: '',
-        password: '',
         rememberMe: false,
-        token: '',
         error: null,
     },
     reducers: {
-        setEmail: (state, action) => {
-            state.email = action.payload;
-        },
-        setPassword: (state, action) => {
-            state.password = action.payload;
-        },
         setRememberMe: (state, action) => {
             state.rememberMe = action.payload;
-        },
-        setToken: (state, action) => {
-            state.token = action.payload;
-        },
-        removeToken: (state) => {
-            state.token = null;
         },
         setLoginError: (state, action) => {
             state.error = action.payload;
@@ -52,7 +37,6 @@ const loginSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(loginUser.fulfilled, (state, action) => {
-            state.token = action.payload;
             if (state.rememberMe) {
                 Cookies.set('token', action.payload, {
                     expires: Infinity,
@@ -68,14 +52,7 @@ const loginSlice = createSlice({
 });
 
 // Exporter les actions générées
-export const {
-    setEmail,
-    setPassword,
-    setRememberMe,
-    setToken,
-    removeToken,
-    setLoginError,
-} = loginSlice.actions;
+export const { setRememberMe, setLoginError } = loginSlice.actions;
 
 // Exporter le reducer
 export default loginSlice.reducer;

@@ -1,23 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { setNewUsername, updateUsername } from '../../slices/user.slice.js';
+import { updateUsername } from '../../slices/user.slice.js';
 
 import './User.scss';
 
 const User = () => {
     const dispatch = useDispatch();
-    const { userName, newUsername, firstName, lastName } = useSelector(
+    const { userName, firstName, lastName } = useSelector(
         (state) => state.userReducer
     );
+    const [newUsername, setNewUsername] = useState(userName);
     const [isEditing, setIsEditing] = useState(false);
 
-    const handleNewUsernameChange = (e) =>
-        dispatch(setNewUsername(e.target.value));
+    const handleNewUsernameChange = (e) => setNewUsername(e.target.value);
 
-    const handleEditButtonClick = async () => {
-        if (!isEditing) {
-            dispatch(setNewUsername(userName));
-        }
+    const handleEditButtonClick = () => {
         if (isEditing) {
             dispatch(updateUsername(newUsername));
         }
@@ -25,6 +22,7 @@ const User = () => {
     };
 
     const handleCancelButtonClick = () => {
+        setNewUsername(userName);
         setIsEditing(false);
     };
 
