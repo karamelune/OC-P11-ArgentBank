@@ -28,7 +28,7 @@ const User = () => {
 
     return (
         <main className="main bg-dark">
-            <div className="header">
+            <section className="header">
                 {isEditing ? (
                     <div className="header-edit">
                         <h1>Edit user info</h1>
@@ -36,6 +36,7 @@ const User = () => {
                             <label htmlFor="username">User name:</label>
                             <input
                                 type="text"
+                                id="username"
                                 title="username"
                                 value={newUsername}
                                 onChange={handleNewUsernameChange}
@@ -45,6 +46,7 @@ const User = () => {
                             <label htmlFor="firstName">First name:</label>
                             <input
                                 type="text"
+                                id="firstName"
                                 title="firstName"
                                 value={firstName}
                                 disabled
@@ -54,7 +56,8 @@ const User = () => {
                             <label htmlFor="lastName">Last name:</label>
                             <input
                                 type="text"
-                                title="lastNamee"
+                                id="lastName"
+                                title="lastName"
                                 value={lastName}
                                 disabled
                             />
@@ -81,7 +84,7 @@ const User = () => {
                         </button>
                     )}
                 </div>
-            </div>
+            </section>
             <h2 className="sr-only">Accounts</h2>
             <section className="account">
                 <div className="account-content-wrapper">

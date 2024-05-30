@@ -52,7 +52,6 @@ const userSlice = createSlice({
             state.firstName = action.payload.firstName;
             state.lastName = action.payload.lastName;
             state.userName = action.payload.userName;
-            state.newUsername = action.payload.newUsername;
             state.id = action.payload.id;
         },
     },

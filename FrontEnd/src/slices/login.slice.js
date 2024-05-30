@@ -25,14 +25,14 @@ const loginSlice = createSlice({
     name: 'login',
     initialState: {
         rememberMe: false,
-        error: null,
+        loginError: null,
     },
     reducers: {
         setRememberMe: (state, action) => {
             state.rememberMe = action.payload;
         },
         setLoginError: (state, action) => {
-            state.error = action.payload;
+            state.loginError = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -46,7 +46,7 @@ const loginSlice = createSlice({
             }
         });
         builder.addCase(loginUser.rejected, (state, action) => {
-            state.error = action.error.message;
+            state.loginError = action.error.message;
         });
     },
 });

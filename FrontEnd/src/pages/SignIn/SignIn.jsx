@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser, setRememberMe } from '../../slices/login.slice';
 import { getUser } from '../../slices/user.slice';
-// import useLogin from '../../hooks/useLogin';
 import './SignIn.scss';
 import { useNavigate } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -12,8 +11,9 @@ const SignIn = () => {
     const navigate = useNavigate();
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const loginError = useSelector((state) => state.loginReducer.error);
-    const { rememberMe } = useSelector((state) => state.loginReducer);
+    const { rememberMe, loginError } = useSelector(
+        (state) => state.loginReducer
+    );
 
     const login = () => {
         dispatch(loginUser({ userName: userName, password: password }))
